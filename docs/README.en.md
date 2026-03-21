@@ -49,7 +49,7 @@ This repository already includes GitHub Actions workflows.
 - Upload logs and outputs as artifacts
 - Send a Telegram alert when a workflow fails
 
-If you need the required secrets, see [`SECRETS.md`](SECRETS.md).
+If you need the required secrets, see [`SECRETS.en.md`](SECRETS.en.md).
 
 ## Format Settings
 

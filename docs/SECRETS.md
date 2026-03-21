@@ -1,17 +1,31 @@
-# Required GitHub Secrets for Deployment
+**Language:** **한국어** | [English](SECRETS.en.md)
 
-To ensure the Macro-Pulse Bot works correctly via GitHub Actions, please add the following secrets in your repository settings (**Settings** -> **Secrets and variables** -> **Actions** -> **New repository secret**).
+# GitHub Secrets
 
-## 1. Telegram Notifications (Required)
-These are essential for receiving the daily reports.
-- **`TELEGRAM_BOT_TOKEN`**: The token you received from BotFather when creating your bot.
-- **`TELEGRAM_CHAT_ID`**: The unique identifier for the chat/channel where reports will be sent.
+GitHub Actions에서 Macro Pulse Bot을 정상적으로 실행하려면 저장소에 아래 Secret 값을 등록해야 합니다.
 
-## 2. Email Notifications (Optional)
-Only required if you want to receive reports via email (in addition to or instead of Telegram).
-- **`SMTP_USERNAME`**: Your email address (e.g., `yourname@gmail.com`).
-- **`SMTP_PASSWORD`**: Your email app password (not your login password).
-- **`RECIPIENT_EMAIL`**: The email address where the report should be sent.
+경로:
+`Settings` -> `Secrets and variables` -> `Actions` -> `New repository secret`
 
----
-**Note:** The GitHub Action workflow is configured to use these exact names. Please ensure the spelling matches exactly.
+## 필수 항목
+
+### Telegram
+
+- `TELEGRAM_BOT_TOKEN`: BotFather로 만든 텔레그램 봇의 토큰
+- `TELEGRAM_CHAT_ID`: 리포트를 받을 채팅방 또는 채널의 ID
+
+## 선택 항목
+
+### Email
+
+이메일로도 리포트를 받고 싶을 때만 필요합니다.
+
+- `SMTP_USERNAME`: 발신 이메일 주소
+- `SMTP_PASSWORD`: 이메일 앱 비밀번호
+- `RECIPIENT_EMAIL`: 리포트를 받을 이메일 주소
+
+## 주의 사항
+
+- Secret 이름은 위와 정확히 같아야 합니다.
+- `SMTP_PASSWORD`에는 일반 로그인 비밀번호가 아니라 앱 비밀번호를 넣는 것이 안전합니다.
+- 이메일을 쓰지 않으면 SMTP 관련 값은 비워도 됩니다.
