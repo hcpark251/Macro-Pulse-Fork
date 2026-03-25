@@ -17,7 +17,7 @@
         {
           "title": "해외 증시",
           "category": "indices_overseas",
-          "items": ["Nikkei 225", "Hang Seng", "Shanghai Composite"]
+          "items": ["S&P 500", "Nasdaq", "Russell 2000", "Nikkei 225", "Hang Seng", "Shanghai Composite"]
         },
         {
           "title": "변동성",
@@ -27,12 +27,22 @@
         {
           "title": "채권",
           "category": "commodities_rates",
-          "items": ["Japan 10Y Treasury", "Korea 10Y Treasury"]
+          "items": ["Korea 10Y Treasury", "Japan 10Y Treasury", "US 2Y Treasury", "US 10Y Treasury", "US 10Y-2Y Spread"]
         },
         {
           "title": "환율",
           "category": "exchange",
-          "items": ["USD/KRW", "JPY/KRW"]
+          "items": ["USD/KRW", "JPY/KRW", "EUR/KRW", "CNY/KRW", "DXY (Dollar Index)"]
+        },
+        {
+          "title": "원자재",
+          "category": "commodities_rates",
+          "items": ["WTI Crude", "Brent Crude", "Natural Gas", "Gold", "Silver", "Copper", "Wheat"]
+        },
+        {
+          "title": "시장 심리",
+          "category": "sentiment",
+          "items": ["Fear & Greed", "Put/Call Ratio"]
         }
       ],
       "screenshot_targets": ["kospi", "kosdaq"]
@@ -49,27 +59,42 @@
         {
           "title": "해외 증시",
           "category": "indices_overseas",
-          "items": ["S&P 500", "Nasdaq", "Euro Stoxx 50"]
+          "items": ["S&P 500", "Nasdaq", "Russell 2000", "Euro Stoxx 50", "FTSE 100"]
         },
         {
           "title": "변동성",
           "category": "volatility",
-          "items": ["VKOSPI", "VIX"]
+          "items": ["VIX", "VKOSPI"]
         },
         {
-          "title": "채권, 원자재",
+          "title": "채권",
           "category": "commodities_rates",
-          "items": ["US 10Y Treasury", "Gold", "Silver", "Copper"]
+          "items": ["US 2Y Treasury", "US 10Y Treasury", "US 10Y-2Y Spread"]
+        },
+        {
+          "title": "원자재",
+          "category": "commodities_rates",
+          "items": ["WTI Crude", "Brent Crude", "Natural Gas", "Gold", "Silver", "Copper", "Wheat"]
         },
         {
           "title": "환율",
           "category": "exchange",
-          "items": ["USD/KRW", "JPY/KRW"]
+          "items": ["USD/KRW", "JPY/KRW", "DXY (Dollar Index)"]
+        },
+        {
+          "title": "ETF",
+          "category": "etf",
+          "items": ["TLT", "GLD", "HYG", "SOXX", "ARKK"]
         },
         {
           "title": "암호화폐",
           "category": "crypto",
           "items": ["Bitcoin", "Ethereum"]
+        },
+        {
+          "title": "시장 심리",
+          "category": "sentiment",
+          "items": ["Fear & Greed", "Put/Call Ratio"]
         }
       ],
       "screenshot_targets": ["finviz"]
