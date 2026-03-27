@@ -40,6 +40,11 @@
           "items": ["WTI Crude", "Brent Crude", "Natural Gas", "Gold", "Silver", "Copper", "Wheat"]
         },
         {
+          "title": "항공우주 & 반도체",
+          "category": "mixed",
+          "items": ["ITA", "XAR", "SOX", "SOXX"]
+        },
+        {
           "title": "암호화폐",
           "category": "crypto",
           "items": ["Bitcoin", "Ethereum", "Ripple"]
@@ -89,7 +94,12 @@
         {
           "title": "ETF",
           "category": "etf",
-          "items": ["TLT", "GLD", "HYG", "SOXX", "ARKK"]
+          "items": ["TLT", "GLD", "HYG", "SOXX", "ARKK", "ITA", "XAR"]
+        },
+        {
+          "title": "항공우주 & 반도체",
+          "category": "mixed",
+          "items": ["ITA", "XAR", "SOX", "SOXX"]
         },
         {
           "title": "암호화폐",

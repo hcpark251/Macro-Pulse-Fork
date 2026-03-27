@@ -51,6 +51,11 @@ YF_TICKERS = {
         TickerDefinition("HYG", "HYG"),
         TickerDefinition("SOXX", "SOXX"),
         TickerDefinition("ARKK", "ARKK"),
+        TickerDefinition("ITA", "ITA"),
+        TickerDefinition("XAR", "XAR"),
+    ),
+    "indices_sector": (
+        TickerDefinition("SOX", "^SOX"),
     ),
     "crypto": (
         TickerDefinition("Bitcoin", "BTC-USD"),
