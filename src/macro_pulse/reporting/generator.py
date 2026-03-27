@@ -70,18 +70,35 @@ def generate_telegram_summary(data, mode="Global", format_config=None):
             signal = "풋 우세(공포)" if item.price >= 1.0 else "콜 우세(낙관)"
             return f"{item.name}: {item.price:.2f} [{signal}] ({item.change_pct:+.2f}%)"
 
+        # analysis 카테고리 (상관관계 등)
+        if item.name and "↔" in item.name:
+            corr = item.price
+            if corr is not None:
+                strength = "강한 양의" if corr >= 0.7 else "양의" if corr >= 0.3 else "약한" if corr >= -0.3 else "음의"
+                return f"{item.name}: {corr:.4f} ({strength} 상관관계)"
+            return f"{item.name}: N/A"
+
         price_str = _format_numeric(item.price, item.value_format)
+        ma_tag = f" [{item.ma_signal}]" if item.ma_signal else ""
         if item.change_pct not in (None, 0):
-            return f"{item.name}: {price_str} ({item.change_pct:+,.2f}%)"
-        return f"{item.name}: {price_str}"
+            return f"{item.name}: {price_str} ({item.change_pct:+,.2f}%){ma_tag}"
+        return f"{item.name}: {price_str}{ma_tag}"
 
     def get_items(category, names):
         """
         이름 매칭 시 완전 일치를 먼저 시도하고,
         실패하면 startswith 부분 매칭으로 폴백.
         Fear & Greed처럼 이름이 동적으로 바뀌는 항목에 대응.
+        category가 'mixed'이면 모든 카테고리에서 검색.
         """
-        source_items = normalized_data.get(category, [])
+        if category == "mixed":
+            source_items = [
+                item
+                for items in normalized_data.values()
+                for item in items
+            ]
+        else:
+            source_items = normalized_data.get(category, [])
         found_items = []
         for name in names:
             # 1차: 완전 일치
@@ -144,6 +161,7 @@ def _render_item(item) -> RenderedAssetSnapshot:
         change_pct_str=change_pct_str,
         color_class=color_class,
         sparkline=sparkline,
+        ma_signal=item.ma_signal,
     )
 
 

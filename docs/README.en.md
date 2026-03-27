@@ -41,6 +41,8 @@ The real entry point is [`src/main.py`](../src/main.py).
 - Sector indices: `SOX` (Philadelphia Semiconductor)
 - Crypto: `Bitcoin`, `Ethereum`, `Ripple`
 - Volatility: `VIX`, `VKOSPI`
+- MA Signal: Bull/Bear/Mixed based on 20-day/60-day moving averages
+- Correlation: `KOSPI↔Nasdaq` correlation coefficient (3-month window)
 
 ## GitHub Actions
 

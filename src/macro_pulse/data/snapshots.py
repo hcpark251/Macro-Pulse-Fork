@@ -15,6 +15,7 @@ def build_snapshot(
     ticker: str | None = None,
     dates: Sequence[str] | None = None,
     value_format: ValueFormat = ValueFormat.STANDARD_2,
+    ma_signal: str = "",
 ) -> AssetSnapshot:
     normalized_history = [float(value) for value in history] if history else []
     if not normalized_history and price is not None:
@@ -29,4 +30,5 @@ def build_snapshot(
         history=normalized_history,
         dates=[str(value) for value in (dates or [])],
         value_format=value_format,
+        ma_signal=ma_signal,
     )

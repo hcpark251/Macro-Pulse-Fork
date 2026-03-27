@@ -75,6 +75,7 @@ class AssetSnapshot:
     ticker: str | None = None
     dates: list[str] = field(default_factory=list)
     value_format: ValueFormat = ValueFormat.STANDARD_2
+    ma_signal: str = ""
 
     @classmethod
     def from_mapping(cls, raw_item: Mapping[str, Any]) -> "AssetSnapshot":
@@ -96,6 +97,7 @@ class AssetSnapshot:
             ticker=raw_item.get("ticker"),
             dates=[str(value) for value in raw_item.get("dates", [])],
             value_format=normalized_format,
+            ma_signal=str(raw_item.get("ma_signal", "")),
         )
 
 
@@ -107,6 +109,7 @@ class RenderedAssetSnapshot:
     change_pct_str: str
     color_class: str
     sparkline: str
+    ma_signal: str = ""
 
 
 @dataclass(slots=True, frozen=True)

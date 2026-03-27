@@ -53,6 +53,11 @@
           "title": "시장 심리",
           "category": "sentiment",
           "items": ["Fear & Greed", "Put/Call Ratio"]
+        },
+        {
+          "title": "상관관계 분석",
+          "category": "analysis",
+          "items": ["KOSPI↔Nasdaq"]
         }
       ],
       "screenshot_targets": ["kospi", "kosdaq"]
@@ -110,6 +115,11 @@
           "title": "시장 심리",
           "category": "sentiment",
           "items": ["Fear & Greed", "Put/Call Ratio"]
+        },
+        {
+          "title": "상관관계 분석",
+          "category": "analysis",
+          "items": ["KOSPI↔Nasdaq"]
         }
       ],
       "screenshot_targets": ["finviz"]

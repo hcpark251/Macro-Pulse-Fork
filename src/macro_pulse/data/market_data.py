@@ -1,6 +1,7 @@
 import os
 import tempfile
 
+import pandas as pd
 import yfinance as yf
 
 from ..core.logging import get_logger
@@ -94,6 +95,9 @@ def fetch_all_data() -> ReportDataset:
     logger.info("Fetching sentiment indicators...")
     _append_sentiment_snapshots(results)
 
+    logger.info("Computing correlation analysis...")
+    _append_correlation_snapshots(results)
+
     logger.info(
         "Completed fetch cycle with %s populated categories",
         sum(1 for items in results.values() if items),
@@ -111,7 +115,9 @@ def _empty_report_dataset() -> ReportDataset:
         "exchange": [],
         "crypto": [],
         "etf": [],
+        "indices_sector": [],
         "sentiment": [],
+        "analysis": [],
     }
 
 
@@ -150,11 +156,28 @@ def _append_cnbc_market_snapshots(results: ReportDataset, cnbc_data) -> None:
         )
 
 
+def _compute_ma_signal(closes, last_price: float) -> str:
+    """20일/60일 이동평균선 대비 현재가 위치를 판단하여 Bull/Bear 신호 반환."""
+    n = len(closes)
+    if n < 20:
+        return ""
+    ma20 = float(closes.tail(20).mean())
+    if n >= 60:
+        ma60 = float(closes.tail(60).mean())
+        if last_price >= ma20 and last_price >= ma60:
+            return "Bull"
+        if last_price < ma20 and last_price < ma60:
+            return "Bear"
+        return "Mixed"
+    # 60일치 부족 시 20MA만 사용
+    return "Bull" if last_price >= ma20 else "Bear"
+
+
 def _append_yahoo_snapshots(results: ReportDataset) -> None:
     for category, definitions in YF_TICKERS.items():
         for definition in definitions:
             try:
-                data = yf.Ticker(definition.symbol).history(period="1mo")
+                data = yf.Ticker(definition.symbol).history(period="3mo")
                 if data.empty:
                     logger.warning(
                         "Yahoo Finance returned no history for %s (%s)",
@@ -172,6 +195,8 @@ def _append_yahoo_snapshots(results: ReportDataset) -> None:
                     change = 0.0
                     change_pct = 0.0
 
+                ma_signal = _compute_ma_signal(data["Close"], last_price)
+
                 results[category].append(
                     build_snapshot(
                         definition.name,
@@ -182,6 +207,7 @@ def _append_yahoo_snapshots(results: ReportDataset) -> None:
                         ticker=definition.symbol,
                         dates=[date.strftime("%m-%d") for date in data.tail(7).index],
                         value_format=definition.value_format,
+                        ma_signal=ma_signal,
                     )
                 )
             except Exception as exc:
@@ -192,7 +218,7 @@ def _append_dxy_snapshot(results: ReportDataset) -> None:
     """DXY 달러인덱스를 exchange 섹션에 추가"""
     try:
         definition = YF_DXY_TICKER
-        data = yf.Ticker(definition.symbol).history(period="1mo")
+        data = yf.Ticker(definition.symbol).history(period="3mo")
         if data.empty:
             logger.warning("Yahoo Finance returned no history for DXY")
             return
@@ -206,6 +232,8 @@ def _append_dxy_snapshot(results: ReportDataset) -> None:
             change = 0.0
             change_pct = 0.0
 
+        ma_signal = _compute_ma_signal(data["Close"], last_price)
+
         results["exchange"].append(
             build_snapshot(
                 definition.name,
@@ -215,6 +243,7 @@ def _append_dxy_snapshot(results: ReportDataset) -> None:
                 history=data["Close"].tail(7).tolist(),
                 ticker=definition.symbol,
                 dates=[date.strftime("%m-%d") for date in data.tail(7).index],
+                ma_signal=ma_signal,
             )
         )
     except Exception as exc:
@@ -295,6 +324,37 @@ def _reorder_bond_snapshots(commodities_rates) -> None:
         return
 
     commodities_rates.insert(korea_10y_index + 1, us_10y_snapshot)
+
+
+CORRELATION_PAIRS = (
+    ("KOSPI", "^KS11", "Nasdaq", "^IXIC"),
+)
+
+
+def _append_correlation_snapshots(results: ReportDataset) -> None:
+    """자산 간 상관계수를 계산하여 analysis 카테고리에 추가."""
+    for name_a, sym_a, name_b, sym_b in CORRELATION_PAIRS:
+        try:
+            hist_a = yf.Ticker(sym_a).history(period="3mo")["Close"]
+            hist_b = yf.Ticker(sym_b).history(period="3mo")["Close"]
+            if hist_a.empty or hist_b.empty:
+                continue
+
+            # 날짜 기준 inner join 후 상관계수 계산
+            merged = pd.concat(
+                [hist_a.rename("A"), hist_b.rename("B")], axis=1, sort=True
+            ).dropna()
+            if len(merged) < 20:
+                continue
+
+            corr = float(merged["A"].corr(merged["B"]))
+            label = f"{name_a}↔{name_b}"
+            results["analysis"].append(
+                build_snapshot(label, round(corr, 4), value_format=ValueFormat.STANDARD_2)
+            )
+            logger.info("Correlation %s: %.4f", label, corr)
+        except Exception as exc:
+            logger.error("Error computing correlation %s↔%s: %s", name_a, name_b, exc)
 
 
 def _configure_runtime_cache() -> None:
