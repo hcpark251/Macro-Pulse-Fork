@@ -55,6 +55,7 @@ YF_TICKERS = {
     "crypto": (
         TickerDefinition("Bitcoin", "BTC-USD"),
         TickerDefinition("Ethereum", "ETH-USD"),
+        TickerDefinition("Ripple", "XRP-USD"),
     ),
     "volatility": (TickerDefinition("VIX", "^VIX"),),
 }

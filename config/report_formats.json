@@ -40,6 +40,11 @@
           "items": ["WTI Crude", "Brent Crude", "Natural Gas", "Gold", "Silver", "Copper", "Wheat"]
         },
         {
+          "title": "암호화폐",
+          "category": "crypto",
+          "items": ["Bitcoin", "Ethereum", "Ripple"]
+        },
+        {
           "title": "시장 심리",
           "category": "sentiment",
           "items": ["Fear & Greed", "Put/Call Ratio"]
@@ -89,7 +94,7 @@
         {
           "title": "암호화폐",
           "category": "crypto",
-          "items": ["Bitcoin", "Ethereum"]
+          "items": ["Bitcoin", "Ethereum", "Ripple"]
         },
         {
           "title": "시장 심리",

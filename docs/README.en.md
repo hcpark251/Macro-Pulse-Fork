@@ -37,7 +37,7 @@ The real entry point is [`src/main.py`](../src/main.py).
 - Overseas indices: `S&P 500`, `Nasdaq`, `Nikkei 225`, and more
 - Rates and commodities: `US 10Y Treasury`, `Gold`, `Silver`, `Copper`
 - FX: `USD/KRW`, `JPY/KRW`, `EUR/KRW`, `CNY/KRW`
-- Crypto: `Bitcoin`, `Ethereum`
+- Crypto: `Bitcoin`, `Ethereum`, `Ripple`
 - Volatility: `VIX`, `VKOSPI`
 
 ## GitHub Actions
